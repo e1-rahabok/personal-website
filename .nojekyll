@@ -3,20 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.theme-toggle');
   const year = document.getElementById('year');
 
-  if (year) {
-    year.textContent = new Date().getFullYear();
-  }
+  if (year) year.textContent = new Date().getFullYear();
 
   const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'light') {
-    body.classList.add('light-mode');
-  }
+  if (savedTheme === 'light') body.classList.add('light-mode');
 
   if (toggle) {
     toggle.addEventListener('click', () => {
       body.classList.toggle('light-mode');
-      const nextTheme = body.classList.contains('light-mode') ? 'light' : 'dark';
-      localStorage.setItem('theme', nextTheme);
+      localStorage.setItem('theme', body.classList.contains('light-mode') ? 'light' : 'dark');
     });
   }
 });
+
