@@ -3,17 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Iwan Rahabok | Portfolio</title>
-    <meta
-      name="description"
-      content="Personal website for Iwan Rahabok, showcasing automation, Python, PowerShell, and infrastructure engineering work."
-    />
+    <title>Iwan Rahabok | Automation Engineer</title>
+    <meta name="description" content="Iwan Rahabok is an automation engineer focused on Python, PowerShell, system operations, and infrastructure tooling." />
+    <meta property="og:title" content="Iwan Rahabok | Automation Engineer" />
+    <meta property="og:description" content="Automation, infrastructure engineering, and practical solutions for modern systems." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://github.com/e1-rahabok.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -27,10 +25,11 @@
         <div class="nav-right">
           <div class="nav-links">
             <a href="#about">About</a>
+            <a href="#expertise">Expertise</a>
             <a href="#projects">Projects</a>
             <a href="#contact">Contact</a>
           </div>
-          <button class="theme-toggle" type="button" aria-label="Toggle dark mode">
+          <button class="theme-toggle" type="button" aria-label="Toggle theme">
             <span class="toggle-track">
               <span class="toggle-thumb"></span>
             </span>
@@ -43,34 +42,28 @@
       <section class="hero">
         <div class="container hero-grid">
           <div class="hero-copy">
-            <p class="eyebrow">Python • PowerShell • Automation</p>
-            <h1>Infrastructure systems, automation, and practical engineering.</h1>
+            <p class="eyebrow">Python • PowerShell • Infrastructure</p>
+            <h1>Building automation that makes complex systems easier to manage.</h1>
             <p class="lead">
-              I’m Iwan Rahabok, an engineer focused on automating complex systems,
-              improving operational workflows, and building tooling for modern
-              infrastructure environments.
+              I’m Iwan Rahabok — an automation-focused engineer helping teams simplify infrastructure operations, reduce repetitive manual work, and improve the reliability of modern systems.
             </p>
 
             <div class="cta-group">
-              <a class="button primary" href="#projects">View projects</a>
-              <a class="button secondary" href="#contact">Contact me</a>
+              <a class="button primary" href="#projects">View work</a>
+              <a class="button secondary" href="#contact">Get in touch</a>
             </div>
 
-            <ul class="quick-facts" aria-label="Key skills">
-              <li>Python scripting</li>
-              <li>PowerShell automation</li>
-              <li>VCF / virtualization operations</li>
+            <ul class="quick-facts" aria-label="Core skills">
+              <li>Python automation</li>
+              <li>PowerShell scripting</li>
+              <li>Virtualization &amp; VCF workflows</li>
             </ul>
           </div>
 
           <div class="hero-visual">
             <div class="profile-panel">
               <div class="profile-image-wrap">
-                <img
-                  src="https://github.com/e1-rahabok.png"
-                  alt="Iwan Rahabok"
-                  class="profile-image"
-                />
+                <img src="https://github.com/e1-rahabok.png" alt="Iwan Rahabok" class="profile-image" />
               </div>
               <div class="profile-content">
                 <p class="mini-label">Profile</p>
@@ -81,7 +74,7 @@
                 <span>Python</span>
                 <span>PowerShell</span>
                 <span>VCF</span>
-                <span>Automation</span>
+                <span>Ops</span>
               </div>
             </div>
           </div>
@@ -92,31 +85,64 @@
         <div class="container">
           <div class="section-heading">
             <p class="eyebrow">About</p>
-            <h2>Focused on reliable automation and modern ops workflows.</h2>
+            <h2>Turning operational complexity into practical solutions.</h2>
           </div>
 
           <div class="about-grid">
             <div class="about-card">
               <p>
-                I work with automation and infrastructure tooling to reduce repetitive
-                manual work and improve system consistency across enterprise environments.
+                I focus on creating tools and workflows that bring clarity to busy system environments. My work aims to reduce friction, remove repetitive work, and give teams more confidence in how infrastructure is managed.
               </p>
             </div>
             <div class="about-card">
               <p>
-                My work spans Python and PowerShell automation, operational tooling,
-                and solutions aligned with virtualization and vCenter / VCF operations.
+                From Python scripting to PowerShell automation and platform-specific operational tooling, I enjoy building systems that are dependable, maintainable, and useful in real-world environments.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="projects" class="section section-alt">
+      <section id="expertise" class="section section-alt">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Expertise</p>
+            <h2>What I work with</h2>
+          </div>
+
+          <div class="skills-grid">
+            <article class="skill-card">
+              <div class="skill-icon">01</div>
+              <h3>Python</h3>
+              <p>Automation scripts, utilities, and system-oriented tooling for repetitive and complex tasks.</p>
+            </article>
+
+            <article class="skill-card">
+              <div class="skill-icon">02</div>
+              <h3>PowerShell</h3>
+              <p>Operational workflows and administrative automation designed to improve consistency and speed.</p>
+            </article>
+
+            <article class="skill-card">
+              <div class="skill-icon">03</div>
+              <h3>Infrastructure</h3>
+              <p>Solutions and automation strategies for environments that need stability, scale, and control.</p>
+            </article>
+
+            <article class="skill-card">
+              <div class="skill-icon">04</div>
+              <h3>VCF / Virtualization</h3>
+              <p>Operational knowledge relevant to VCF, virtualization environments, and platform management tasks.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
         <div class="container">
           <div class="section-heading">
             <p class="eyebrow">Projects</p>
-            <h2>Selected work</h2>
+            <h2>Featured work</h2>
           </div>
 
           <div class="projects-grid">
@@ -124,8 +150,8 @@
               <span class="project-tag">Python</span>
               <h3>VCF vCommunity Adapter</h3>
               <p>
-                A management pack and adapter solution for Broadcom VCF Operations,
-                focused on extending automation and operational insight.
+                A management pack and adapter project aimed at enhancing Broadcom VCF Operations
+                capabilities and supporting broader automation scenarios.
               </p>
               <a href="https://github.com/e1-rahabok/VCF-vCommunity-Adapter" target="_blank" rel="noreferrer">
                 Open repository
@@ -134,10 +160,10 @@
 
             <article class="project-card">
               <span class="project-tag">Automation</span>
-              <h3>Infrastructure tooling</h3>
+              <h3>System tooling</h3>
               <p>
-                Practical scripts and workflows for improving operational efficiency,
-                standardization, and service reliability.
+                Practical engineering solutions focused on reducing manual effort, improving
+                visibility, and strengthening repeatable operations.
               </p>
             </article>
 
@@ -145,10 +171,36 @@
               <span class="project-tag">PowerShell</span>
               <h3>Ops utilities</h3>
               <p>
-                Solutions that streamline administrative tasks across Windows and
-                systems-oriented environments.
+                Administration-oriented scripts designed to streamline operational tasks and increase reliability within system-focused environments.
               </p>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Approach</p>
+            <h2>How I work</h2>
+          </div>
+
+          <div class="process-grid">
+            <div class="process-card">
+              <span>01</span>
+              <h3>Understand</h3>
+              <p>Identify the bottlenecks, friction points, and real operational needs behind the workflow.</p>
+            </div>
+            <div class="process-card">
+              <span>02</span>
+              <h3>Automate</h3>
+              <p>Turn the repetitive work into reliable scripts, processes, and tooling that can scale.</p>
+            </div>
+            <div class="process-card">
+              <span>03</span>
+              <h3>Improve</h3>
+              <p>Refine the system for maintainability, observability, and long-term operational value.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -157,7 +209,7 @@
         <div class="container contact-box">
           <div>
             <p class="eyebrow">Contact</p>
-            <h2>Let’s build something valuable.</h2>
+            <h2>Let’s build something useful.</h2>
           </div>
 
           <div class="contact-links" aria-label="Contact links">
@@ -178,6 +230,95 @@
     <script src="script.js"></script>
   </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
