@@ -11,11 +11,76 @@ document.addEventListener('DOMContentLoaded', () => {
   if (toggle) {
     toggle.addEventListener('click', () => {
       body.classList.toggle('light-mode');
-      const nextTheme = body.classList.contains('light-mode') ? 'light' : 'dark';
-      localStorage.setItem('theme', nextTheme);
+      localStorage.setItem('theme', body.classList.contains('light-mode') ? 'light' : 'dark');
     });
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
