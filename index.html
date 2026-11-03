@@ -1,519 +1,454 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Iwan Rahabok | Personal Website</title>
-    <meta
-      name="description"
-      content="Personal website for Iwan Rahabok, showcasing automation, Python, PowerShell, and virtualization work."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <header class="site-header">
-      <nav class="container nav">
-        <div class="brand">Iwan Rahabok</div>
-        <div class="nav-links">
-          <a href="#about">About</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iwan Rahabok | Enterprise Infrastructure & Systems Architecture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.0/umd/lucide.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#0a0d14',
+                            800: '#111827',
+                            700: '#1f2937',
+                            600: '#374151'
+                        },
+                        accent: {
+                            cyan: '#06b6d4',
+                            blue: '#3b82f6',
+                            emerald: '#10b981',
+                            purple: '#8b5cf6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-cyan { box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.3); }
+        .glow-blue { box-shadow: 0 0 25px -5px rgba(59, 130, 246, 0.3); }
+        .glow-emerald { box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.3); }
+        .gradient-text {
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0a0d14; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+    </style>
+</head>
+<body class="bg-dark-900 text-gray-100 min-h-screen selection:bg-accent-cyan selection:text-dark-900 custom-scrollbar">
+
+    <!-- Background Network Topology Canvas -->
+    <canvas id="network-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-25"></canvas>
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-gray-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-accent-cyan to-accent-blue flex items-center justify-center font-bold text-dark-900 text-lg shadow-lg shadow-cyan-500/20">
+                    IR
+                </div>
+                <div>
+                    <span class="font-bold text-lg tracking-tight block">Iwan Rahabok</span>
+                    <span class="text-xs text-accent-cyan font-mono">VMware Infrastructure & Systems Architect</span>
+                </div>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
+                <a href="#about" class="hover:text-accent-cyan transition-colors">About</a>
+                <a href="#gallery" class="hover:text-accent-cyan transition-colors">Photo Showcase (20)</a>
+                <a href="#ai-telemetry" class="hover:text-accent-cyan transition-colors">AI & Eco Telemetry</a>
+                <a href="#publications" class="hover:text-accent-cyan transition-colors">Publications</a>
+                <a href="https://github.com/e1-rahabok/personal-website" target="_blank" class="flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-800/80 border border-gray-700 hover:border-accent-cyan transition-all text-accent-cyan">
+                    <i data-lucide="github" class="w-4 h-4"></i>
+                    <span>GitHub Repo</span>
+                </a>
+            </nav>
         </div>
-      </nav>
     </header>
 
-    <main>
-      <section class="hero">
-        <div class="container hero-grid">
-          <div class="hero-copy">
-            <p class="eyebrow">Automation • Python • PowerShell</p>
-            <h1>Building practical solutions for modern infrastructure.</h1>
-            <p class="lead">
-              I’m Iwan Rahabok, a technology-focused professional working at the
-              intersection of automation, systems, and developer tooling.
-            </p>
-            <div class="cta-group">
-              <a class="button primary" href="#projects">View work</a>
-              <a class="button secondary" href="#contact">Get in touch</a>
+    <main class="relative z-10">
+        <!-- Hero Section -->
+        <section id="about" class="py-20 lg:py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-accent-cyan/10 border border-accent-cyan/20 text-accent-cyan text-xs font-mono">
+                        <span class="w-2 h-2 rounded-full bg-accent-cyan animate-pulse"></span>
+                        <span>Gemini Capability Showcase &bull; Singapore Landed Residence</span>
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
+                        Enterprise Infrastructure & <span class="gradient-text">Autonomous Systems</span>
+                    </h1>
+                    <p class="text-lg text-gray-300 leading-relaxed">
+                        Welcome to my personal showcase repository (<code class="font-mono text-accent-cyan bg-dark-800 px-2 py-0.5 rounded">e1-rahabok/personal-website</code>). Built entirely as a demonstration of Google Gemini's full capability in crafting high-performance personal websites—integrating enterprise architecture, smart home eco-telemetry, and personal lifestyle archives.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <a href="#gallery" class="px-6 py-3 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-blue text-dark-900 font-bold hover:opacity-90 transition-all shadow-lg shadow-cyan-500/25 flex items-center space-x-2">
+                            <i data-lucide="image" class="w-5 h-5"></i>
+                            <span>Explore 20-Photo Archive</span>
+                        </a>
+                        <a href="#ai-telemetry" class="px-6 py-3 rounded-xl glass-panel text-gray-200 hover:border-accent-cyan transition-all flex items-center space-x-2">
+                            <i data-lucide="cpu" class="w-5 h-5 text-accent-emerald"></i>
+                            <span>Live AI & Eco Dashboard</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:col-span-5">
+                    <div class="glass-panel p-6 rounded-2xl glow-cyan space-y-6 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 text-accent-cyan/20">
+                            <i data-lucide="terminal" class="w-24 h-24"></i>
+                        </div>
+                        <h3 class="font-mono text-sm uppercase tracking-wider text-accent-cyan flex items-center space-x-2">
+                            <i data-lucide="server" class="w-4 h-4"></i>
+                            <span>System Profile</span>
+                        </h3>
+                        <div class="space-y-3 text-sm font-mono text-gray-300">
+                            <div class="flex justify-between border-b border-gray-800 pb-2">
+                                <span class="text-gray-500">Role:</span>
+                                <span class="text-white font-medium">Enterprise System Admin & Author</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-800 pb-2">
+                                <span class="text-gray-500">Location:</span>
+                                <span class="text-white font-medium">Singapore (Landed Home)</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-800 pb-2">
+                                <span class="text-gray-500">EV Fleet:</span>
+                                <span class="text-accent-emerald font-medium">Zeekr 7X SUV EV</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-800 pb-2">
+                                <span class="text-gray-500">Hardware:</span>
+                                <span class="text-accent-blue font-medium">Dell Pro Max / Honor Magic V3</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Ecosystem:</span>
+                                <span class="text-accent-cyan font-medium">vSphere, Docker, WSL, Claude</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <ul class="quick-facts">
-              <li>Python specialist</li>
-              <li>PowerShell automation</li>
-              <li>Broadcom VCF / virtualization automation</li>
-            </ul>
-          </div>
+        </section>
 
-          <div class="hero-card">
-            <div class="card-header">
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
+        <!-- 20-Photo Gallery Section -->
+        <section id="gallery" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="text-center space-y-4 mb-12">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-accent-blue/10 border border-accent-blue/20 text-accent-blue text-xs font-mono">
+                    Visual Archive
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">20 Curated Personal & Environmental Captures</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    Organized across home ponds, heavy weightlifting gym sessions, high-tech EV & mobile devices, and international expeditions. Click any card to open the high-resolution lightbox.
+                </p>
+                
+                <!-- Category Filter Buttons -->
+                <div class="flex flex-wrap justify-center gap-2 pt-6">
+                    <button onclick="filterGallery('all')" class="gallery-filter-btn px-4 py-2 rounded-lg text-xs font-mono bg-accent-cyan text-dark-900 font-bold transition-all" data-filter="all">All (20)</button>
+                    <button onclick="filterGallery('home')" class="gallery-filter-btn px-4 py-2 rounded-lg text-xs font-mono glass-panel text-gray-300 hover:text-accent-cyan transition-all" data-filter="home">Home & Ponds (5)</button>
+                    <button onclick="filterGallery('gym')" class="gallery-filter-btn px-4 py-2 rounded-lg text-xs font-mono glass-panel text-gray-300 hover:text-accent-cyan transition-all" data-filter="gym">Gym & Fitness (5)</button>
+                    <button onclick="filterGallery('tech')" class="gallery-filter-btn px-4 py-2 rounded-lg text-xs font-mono glass-panel text-gray-300 hover:text-accent-cyan transition-all" data-filter="tech">Tech & Gear (5)</button>
+                    <button onclick="filterGallery('travel')" class="gallery-filter-btn px-4 py-2 rounded-lg text-xs font-mono glass-panel text-gray-300 hover:text-accent-cyan transition-all" data-filter="travel">Travel & Expeditions (5)</button>
+                </div>
             </div>
-            <div class="profile-box">
-              <div class="avatar">IR</div>
-              <h2>Iwan Rahabok</h2>
-              <p>Infrastructure & Automation</p>
+
+            <!-- Gallery Grid -->
+            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Items injected via JS -->
             </div>
-            <div class="stack-tags">
-              <span>Python</span>
-              <span>PowerShell</span>
-              <span>VCF</span>
-              <span>Automation</span>
+        </section>
+
+        <!-- AI & Eco Telemetry Dashboard -->
+        <section id="ai-telemetry" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="glass-panel p-8 rounded-3xl glow-emerald space-y-8">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-gray-800 pb-6">
+                    <div>
+                        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-accent-emerald/10 border border-accent-emerald/20 text-accent-emerald text-xs font-mono mb-2">
+                            <span class="w-2 h-2 rounded-full bg-accent-emerald animate-ping"></span>
+                            <span>Live Smart Residence Telemetry</span>
+                        </div>
+                        <h3 class="text-2xl font-bold">Autonomous Eco-System & AI Monitoring</h3>
+                    </div>
+                    <div class="flex items-center space-x-4 font-mono text-xs text-gray-400">
+                        <span>Status: <strong class="text-accent-emerald">ONLINE</strong></span>
+                        <span>Refresh: <strong class="text-white">1.0s</strong></span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-dark-800/80 p-6 rounded-2xl border border-gray-800 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono text-sm text-gray-400 flex items-center space-x-2">
+                                <i data-lucide="waves" class="w-4 h-4 text-accent-cyan"></i>
+                                <span>Outdoor Pond & Pandan</span>
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-xs font-mono bg-accent-cyan/10 text-accent-cyan">Stable</span>
+                        </div>
+                        <div class="text-3xl font-bold font-mono">28.4 <span class="text-sm font-normal text-gray-400">&deg;C</span></div>
+                        <p class="text-xs text-gray-400">Apple snails & guppies active. pH 7.2. Split filtration nominal.</p>
+                        <div class="h-16 w-full">
+                            <canvas id="chart-pond" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-800/80 p-6 rounded-2xl border border-gray-800 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono text-sm text-gray-400 flex items-center space-x-2">
+                                <i data-lucide="cpu" class="w-4 h-4 text-accent-blue"></i>
+                                <span>vSphere & Home Lab Cluster</span>
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-xs font-mono bg-accent-blue/10 text-accent-blue">Optimal</span>
+                        </div>
+                        <div class="text-3xl font-bold font-mono">14.2 <span class="text-sm font-normal text-gray-400">k IOPS</span></div>
+                        <p class="text-xs text-gray-400">vSAN storage policy capacity balanced. CPU utilization at 34%.</p>
+                        <div class="h-16 w-full">
+                            <canvas id="chart-cluster" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-800/80 p-6 rounded-2xl border border-gray-800 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono text-sm text-gray-400 flex items-center space-x-2">
+                                <i data-lucide="zap" class="w-4 h-4 text-accent-emerald"></i>
+                                <span>Zeekr 7X EV Status</span>
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-xs font-mono bg-accent-emerald/10 text-accent-emerald">Charged</span>
+                        </div>
+                        <div class="text-3xl font-bold font-mono">88% <span class="text-sm font-normal text-gray-400">SOC</span></div>
+                        <p class="text-xs text-gray-400">Singapore garage parked. Tire pressure nominal. Range ~540km.</p>
+                        <div class="h-16 w-full">
+                            <canvas id="chart-ev" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section id="about" class="section">
-        <div class="container">
-          <div class="section-heading">
-            <p class="eyebrow">About</p>
-            <h2>Focused on reliable automation and platform enablement.</h2>
-          </div>
-          <div class="about-grid">
-            <p>
-              I work with automation, scripting, and platform operations to improve
-              efficiency, reduce repetitive manual effort, and support scalable
-              technology environments.
-            </p>
-            <p>
-              My work includes Python-based tooling, PowerShell automation, and
-              solutions related to VMware/Broadcom VCF operations and management
-              workflows.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section id="projects" class="section alt">
-        <div class="container">
-          <div class="section-heading">
-            <p class="eyebrow">Projects</p>
-            <h2>Selected work</h2>
-          </div>
-
-          <div class="projects-grid">
-            <article class="project-card">
-              <span class="project-tag">Python</span>
-              <h3>VCF vCommunity Adapter</h3>
-              <p>
-                A management pack and adapter solution for Broadcom VCF Operations,
-                focused on extending automation and monitoring capabilities.
-              </p>
-              <a href="https://github.com/e1-rahabok/VCF-vCommunity-Adapter" target="_blank" rel="noreferrer">
-                View repository
-              </a>
-            </article>
-
-            <article class="project-card">
-              <span class="project-tag">Automation</span>
-              <h3>Infrastructure tooling</h3>
-              <p>
-                Practical scripting and operational improvements designed to simplify
-                repetitive administrative tasks and support service reliability.
-              </p>
-            </article>
-
-            <article class="project-card">
-              <span class="project-tag">PowerShell</span>
-              <h3>System operations</h3>
-              <p>
-                Solutions for Windows-based environments, task automation, and
-                operational consistency across enterprise tooling.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" class="section contact">
-        <div class="container contact-box">
-          <div>
-            <p class="eyebrow">Contact</p>
-            <h2>Let’s connect.</h2>
-          </div>
-          <div class="contact-links">
-            <a href="https://github.com/e1-rahabok" target="_blank" rel="noreferrer">GitHub</a>
-            <a href="mailto:your-email@example.com">Email</a>
-          </div>
-        </div>
-      </section>
+        <!-- Publications Section -->
+        <section id="publications" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="max-w-3xl mx-auto text-center space-y-4 mb-12">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-accent-purple/10 border border-accent-purple/20 text-accent-purple text-xs font-mono">
+                    Literary Works
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Technical Publications</h2>
+                <p class="text-gray-400">Authored definitive industry guides for enterprise virtualization and private cloud administration.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="glass-panel p-6 rounded-2xl space-y-4 border border-gray-800 hover:border-accent-purple transition-all">
+                    <span class="px-2.5 py-1 rounded-full text-xs font-mono bg-accent-purple/10 text-accent-purple">5th Edition (Oct 2026)</span>
+                    <h3 class="text-xl font-bold">Private Cloud Management</h3>
+                    <p class="text-sm text-gray-400">Comprehensive reference architecture for designing, operating, and automating private cloud infrastructures at enterprise scale.</p>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl space-y-4 border border-gray-800 hover:border-accent-cyan transition-all">
+                    <span class="px-2.5 py-1 rounded-full text-xs font-mono bg-accent-cyan/10 text-accent-cyan">Definitive Guide</span>
+                    <h3 class="text-xl font-bold">VMware vSphere Metrics</h3>
+                    <p class="text-sm text-gray-400">In-depth analysis of vSphere performance counters, resource contention metrics, and capacity planning methodologies.</p>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="container">
-        <p>© 2026 Iwan Rahabok</p>
-      </div>
+    <!-- Footer -->
+    <footer class="border-t border-gray-800/80 bg-dark-900 py-12 px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500 space-y-4">
+        <div class="flex items-center justify-center space-x-3">
+            <span class="font-bold text-gray-300">Iwan Rahabok</span>
+            <span>&bull;</span>
+            <a href="https://isvara.io" target="_blank" class="text-accent-cyan hover:underline">isvara.io</a>
+            <span>&bull;</span>
+            <a href="https://github.com/e1-rahabok/personal-website" target="_blank" class="text-accent-blue hover:underline">GitHub Repository</a>
+        </div>
+        <p>Showcasing Google Gemini Full Capability &bull; Singapore 2026</p>
     </footer>
 
-    <script src="script.js"></script>
-  </body>
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="relative max-w-4xl w-full glass-panel p-6 rounded-2xl border border-gray-700 space-y-4">
+            <button onclick="closeLightbox()" class="absolute top-4 right-4 p-2 rounded-full bg-gray-800 hover:bg-gray-700 text-gray-300 transition-all">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="aspect-video w-full rounded-xl overflow-hidden bg-gray-900 flex items-center justify-center relative">
+                <img id="lightbox-img" src="" alt="" class="w-full h-full object-cover">
+            </div>
+            <div>
+                <span id="lightbox-category" class="px-2.5 py-1 rounded-full text-xs font-mono bg-accent-cyan/10 text-accent-cyan uppercase"></span>
+                <h3 id="lightbox-title" class="text-xl font-bold mt-2"></h3>
+                <p id="lightbox-desc" class="text-sm text-gray-300 mt-1"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        lucide.createIcons();
+
+        const galleryItems = [
+            { id: 1, category: 'home', title: 'Large Outdoor Natural Pond', desc: 'Landed home sanctuary in Singapore featuring apple snails, guppies, mollies, and flourishing pandan trees.', image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80' },
+            { id: 2, category: 'home', title: 'Shallow Indoor Guppy Pond', desc: 'Indoor aquatic setup stocked with vibrant guppies and mollies for calm ambient observation.', image: 'https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=800&q=80' },
+            { id: 3, category: 'home', title: 'Split Air-Conditioning System', desc: 'Energy-efficient climate control regulating the Singapore landed residence living spaces.', image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80' },
+            { id: 4, category: 'home', title: 'Landed Residence Architecture', desc: 'Spacious multi-level home environment designed for family life and tranquility.', image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80' },
+            { id: 5, category: 'home', title: 'Pandan Garden Corner', desc: 'Lush green pandan foliage thriving right alongside the outdoor natural pond ecosystem.', image: 'https://images.unsplash.com/photo-1530968461151-f3f22e17743d?auto=format&fit=crop&w=800&q=80' },
+            
+            { id: 6, category: 'gym', title: 'Heavy Deadlift Session', desc: 'Three decades of weightlifting experience focused on major compound movements.', image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80' },
+            { id: 7, category: 'gym', title: 'Squat Rack & Leg Strength', desc: 'Deep barbell squats maintaining peak physical conditioning in the 50s.', image: 'https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=800&q=80' },
+            { id: 8, category: 'gym', title: 'Bench Press Mastery', desc: 'Consistent upper body strength training with heavy compound pressing.', image: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80' },
+            { id: 9, category: 'gym', title: 'Pull-Ups & Dips Rig', desc: 'Bodyweight mastery focusing on strict pull-ups and parallel bar dips.', image: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80' },
+            { id: 10, category: 'gym', title: 'Core & Conditioning Routine', desc: 'Rigorous daily training maintaining discipline, posture, and longevity.', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80' },
+
+            { id: 11, category: 'tech', title: 'Zeekr 7X SUV EV', desc: 'Advanced electric vehicle driven daily across Singapore roads for 9+ months.', image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800&q=80' },
+            { id: 12, category: 'tech', title: 'Honor Magic V3 Foldable', desc: 'Cutting-edge foldable smartphone running MagicOS 10 for rapid mobile productivity.', image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80' },
+            { id: 13, category: 'tech', title: 'Dell Pro Max Workstation', desc: 'High-performance corporate workstation laptop handling heavy virtualization workloads.', image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80' },
+            { id: 14, category: 'tech', title: 'LG Gram & WSL Environment', desc: 'Lightweight mobile powerhouse running Windows Subsystem for Linux and Docker containers.', image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80' },
+            { id: 15, category: 'tech', title: 'Remote Infrastructure Node', desc: 'Managing remote Ubuntu Desktop Linux servers via secure SSH and RDP tunnels.', image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80' },
+
+            { id: 16, category: 'travel', title: 'The Venetian Las Vegas', desc: 'International travel expedition staying at The Venetian during the US tech tour.', image: 'https://images.unsplash.com/photo-1581351721010-8cf859cb14a4?auto=format&fit=crop&w=800&q=80' },
+            { id: 17, category: 'travel', title: 'Great Wall of China Expedition', desc: 'Historical exploration during the Beijing and Shanghai architectural tour.', image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=800&q=80' },
+            { id: 18, category: 'travel', title: 'Hong Kong West Kowloon Station', desc: 'Utilizing advanced high-speed rail lines across Southern China.', image: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=800&q=80' },
+            { id: 19, category: 'travel', title: 'Surabaya East Java Visit', desc: 'Family and cultural heritage visits across Surabaya and East Java.', image: 'https://images.unsplash.com/photo-1596401348654-201991a0445d?auto=format&fit=crop&w=800&q=80' },
+            { id: 20, category: 'travel', title: 'Lombok Mandalika Development', desc: 'Future commercial projects including ice-making factory and shophouses in Kuta Lombok.', image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80' }
+        ];
+
+        function renderGallery(filter = 'all') {
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = '';
+            const filtered = filter === 'all' ? galleryItems : galleryItems.filter(item => item.category === filter);
+            
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'glass-panel rounded-2xl overflow-hidden group cursor-pointer border border-gray-800 hover:border-accent-cyan transition-all duration-300 transform hover:-translate-y-1';
+                card.onclick = () => openLightbox(item);
+                card.innerHTML = `
+                    <div class="aspect-video w-full overflow-hidden bg-gray-900 relative">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-xs font-mono text-accent-cyan flex items-center space-x-1">
+                                <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+                                <span>Click to expand</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5 space-y-2">
+                        <span class="text-xs font-mono uppercase tracking-wider text-accent-cyan">${item.category}</span>
+                        <h4 class="font-bold text-base text-white group-hover:text-accent-cyan transition-colors">${item.title}</h4>
+                        <p class="text-xs text-gray-400 line-clamp-2">${item.desc}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function filterGallery(category) {
+            document.querySelectorAll('.gallery-filter-btn').forEach(btn => {
+                if(btn.dataset.filter === category) {
+                    btn.className = 'gallery-filter-btn px-4 py-2 rounded-lg text-xs font-mono bg-accent-cyan text-dark-900 font-bold transition-all';
+                } else {
+                    btn.className = 'gallery-filter-btn px-4 py-2 rounded-lg text-xs font-mono glass-panel text-gray-300 hover:text-accent-cyan transition-all';
+                }
+            });
+            renderGallery(category);
+        }
+
+        function openLightbox(item) {
+            document.getElementById('lightbox-img').src = item.image;
+            document.getElementById('lightbox-category').innerText = item.category;
+            document.getElementById('lightbox-title').innerText = item.title;
+            document.getElementById('lightbox-desc').innerText = item.desc;
+            document.getElementById('lightbox').classList.remove('hidden');
+            document.getElementById('lightbox').classList.add('flex');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('flex');
+            document.getElementById('lightbox').classList.add('hidden');
+        }
+
+        // Background Network Topology Canvas
+        const canvas = document.getElementById('network-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.8;
+                this.vy = (Math.random() - 0.5) * 0.8;
+                this.radius = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(6, 182, 212, 0.5)';
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.floor((width * height) / 25000);
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateNetwork() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(6, 182, 212, ${0.15 * (1 - dist / 120)})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateNetwork);
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            resizeCanvas();
+            initParticles();
+            animateNetwork();
+            renderGallery('all');
+        });
+    </script>
+</body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
