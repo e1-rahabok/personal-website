@@ -3,68 +3,89 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Iwan Rahabok | Personal Website</title>
+    <title>Iwan Rahabok | Automation Engineer</title>
     <meta
       name="description"
-      content="Personal website for Iwan Rahabok, showcasing automation, Python, PowerShell, and virtualization work."
+      content="Iwan Rahabok is an automation engineer focused on Python, PowerShell, infrastructure operations, and practical systems tooling."
     />
+    <meta property="og:title" content="Iwan Rahabok | Automation Engineer" />
+    <meta
+      property="og:description"
+      content="Practical automation, systems engineering, and infrastructure tooling for modern operations."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://github.com/e1-rahabok.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+
     <header class="site-header">
-      <nav class="container nav">
-        <div class="brand">Iwan Rahabok</div>
-        <div class="nav-links">
+      <div class="container nav-wrap">
+        <a href="#top" class="brand" aria-label="Iwan Rahabok home">
+          <span class="brand-mark">IR</span>
+          <span class="brand-name">Iwan Rahabok</span>
+        </a>
+
+        <nav class="nav" aria-label="Main nav">
           <a href="#about">About</a>
+          <a href="#expertise">Expertise</a>
           <a href="#projects">Projects</a>
           <a href="#contact">Contact</a>
-        </div>
-      </nav>
+        </nav>
+
+        <button class="theme-toggle" type="button" aria-label="Toggle dark mode">
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        </button>
+      </div>
     </header>
 
-    <main>
+    <main id="top">
       <section class="hero">
         <div class="container hero-grid">
           <div class="hero-copy">
-            <p class="eyebrow">Automation • Python • PowerShell</p>
-            <h1>Building practical solutions for modern infrastructure.</h1>
+            <p class="eyebrow">Python • PowerShell • Infrastructure</p>
+            <h1>Building practical systems for modern infrastructure.</h1>
             <p class="lead">
-              I’m Iwan Rahabok, a technology-focused professional working at the
-              intersection of automation, systems, and developer tooling.
+              I’m Iwan Rahabok, an automation-focused engineer helping teams simplify complex systems,
+              reduce manual toil, and create dependable workflows across infrastructure operations.
             </p>
-            <div class="cta-group">
+
+            <div class="cta-row">
               <a class="button primary" href="#projects">View work</a>
               <a class="button secondary" href="#contact">Get in touch</a>
             </div>
-            <ul class="quick-facts">
+
+            <ul class="facts" aria-label="Core skills">
               <li>Python specialist</li>
               <li>PowerShell automation</li>
-              <li>Broadcom VCF / virtualization automation</li>
+              <li>Broadcom VCF / virtualization</li>
             </ul>
           </div>
 
-          <div class="hero-card">
-            <div class="card-header">
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-            </div>
-            <div class="profile-box">
-              <div class="avatar">IR</div>
-              <h2>Iwan Rahabok</h2>
-              <p>Infrastructure & Automation</p>
-            </div>
-            <div class="stack-tags">
-              <span>Python</span>
-              <span>PowerShell</span>
-              <span>VCF</span>
-              <span>Automation</span>
+          <div class="hero-visual">
+            <div class="profile-panel glass-card">
+              <div class="profile-image-wrap">
+                <img src="https://github.com/e1-rahabok.png" alt="Iwan Rahabok" />
+              </div>
+
+              <div class="profile-content">
+                <p class="mini-label">Profile</p>
+                <h2>Iwan Rahabok</h2>
+                <p class="role">Infrastructure &amp; Automation</p>
+              </div>
+
+              <div class="chip-row">
+                <span>Python</span>
+                <span>PowerShell</span>
+                <span>VCF</span>
+                <span>Automation</span>
+              </div>
             </div>
           </div>
         </div>
@@ -76,22 +97,61 @@
             <p class="eyebrow">About</p>
             <h2>Focused on reliable automation and platform enablement.</h2>
           </div>
+
           <div class="about-grid">
-            <p>
-              I work with automation, scripting, and platform operations to improve
-              efficiency, reduce repetitive manual effort, and support scalable
-              technology environments.
-            </p>
-            <p>
-              My work includes Python-based tooling, PowerShell automation, and
-              solutions related to VMware/Broadcom VCF operations and management
-              workflows.
-            </p>
+            <div class="glass-card info-card">
+              <p>
+                I work with automation, scripting, and operational tooling to reduce repetitive work and improve
+                efficiency in infrastructure-focused environments.
+              </p>
+            </div>
+
+            <div class="glass-card info-card">
+              <p>
+                My work spans Python-based automation, PowerShell workflows, and solutions aligned with VMware and
+                Broadcom VCF operations, infrastructure management, and business-driven tooling.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="projects" class="section alt">
+      <section id="expertise" class="section section-alt">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Expertise</p>
+            <h2>What I bring to the table</h2>
+          </div>
+
+          <div class="skills-grid">
+            <article class="glass-card skill-card">
+              <div class="skill-icon">01</div>
+              <h3>Python</h3>
+              <p>Automation scripts, utilities, and operational tooling for real world problem solving.</p>
+            </article>
+
+            <article class="glass-card skill-card">
+              <div class="skill-icon">02</div>
+              <h3>PowerShell</h3>
+              <p>Administrative automation built for speed, consistency, and operational reliability.</p>
+            </article>
+
+            <article class="glass-card skill-card">
+              <div class="skill-icon">03</div>
+              <h3>Infrastructure</h3>
+              <p>Systems automation and infrastructure design for resilient, scalable environments.</p>
+            </article>
+
+            <article class="glass-card skill-card">
+              <div class="skill-icon">04</div>
+              <h3>VCF / Virtualization</h3>
+              <p>Operational understanding across platform management and virtualization-heavy stacks.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
         <div class="container">
           <div class="section-heading">
             <p class="eyebrow">Projects</p>
@@ -99,48 +159,76 @@
           </div>
 
           <div class="projects-grid">
-            <article class="project-card">
+            <article class="glass-card project-card">
               <span class="project-tag">Python</span>
               <h3>VCF vCommunity Adapter</h3>
               <p>
-                A management pack and adapter solution for Broadcom VCF Operations,
-                focused on extending automation and monitoring capabilities.
+                A management pack and adapter solution for Broadcom VCF Operations, focused on extending automation
+                and operational visibility.
               </p>
-              <a href="https://github.com/e1-rahabok/VCF-vCommunity-Adapter" target="_blank" rel="noreferrer">
-                View repository
-              </a>
+              <a href="https://github.com/e1-rahabok/VCF-vCommunity-Adapter" target="_blank" rel="noreferrer">Open repository</a>
             </article>
 
-            <article class="project-card">
+            <article class="glass-card project-card">
               <span class="project-tag">Automation</span>
               <h3>Infrastructure tooling</h3>
               <p>
-                Practical scripting and operational improvements designed to simplify
-                repetitive administrative tasks and support service reliability.
+                Practical automation and process improvements designed to reduce operational friction and support
+                service reliability.
               </p>
             </article>
 
-            <article class="project-card">
+            <article class="glass-card project-card">
               <span class="project-tag">PowerShell</span>
-              <h3>System operations</h3>
+              <h3>Ops utilities</h3>
               <p>
-                Solutions for Windows-based environments, task automation, and
-                operational consistency across enterprise tooling.
+                Administration-focused automation that reduces repetitive tasks and improves system management.
               </p>
             </article>
           </div>
         </div>
       </section>
 
-      <section id="contact" class="section contact">
-        <div class="container contact-box">
+      <section class="section section-alt">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Approach</p>
+            <h2>How I work</h2>
+          </div>
+
+          <div class="process-grid">
+            <div class="glass-card process-card">
+              <span>01</span>
+              <h3>Understand</h3>
+              <p>Identify the bottlenecks, friction points, and real operational needs behind the workflow.</p>
+            </div>
+
+            <div class="glass-card process-card">
+              <span>02</span>
+              <h3>Automate</h3>
+              <p>Turn repetitive work into reliable scripts, workflows, and tooling that scale.</p>
+            </div>
+
+            <div class="glass-card process-card">
+              <span>03</span>
+              <h3>Improve</h3>
+              <p>Refine the system for maintainability, visibility, and long-term operational value.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact-section">
+        <div class="container contact-box glass-card">
           <div>
             <p class="eyebrow">Contact</p>
-            <h2>Let’s connect.</h2>
+            <h2>Let’s build something useful.</h2>
           </div>
-          <div class="contact-links">
+
+          <div class="contact-links" aria-label="Contact links">
             <a href="https://github.com/e1-rahabok" target="_blank" rel="noreferrer">GitHub</a>
-            <a href="mailto:your-email@example.com">Email</a>
+            <a href="https://github.com/e1-rahabok/VCF-vCommunity-Adapter" target="_blank" rel="noreferrer">VCF Repo</a>
+            <a href="mailto:iwan.ang@gmail.com">Email</a>
           </div>
         </div>
       </section>
@@ -148,372 +236,10 @@
 
     <footer class="site-footer">
       <div class="container">
-        <p>© 2026 Iwan Rahabok</p>
+        <p>© <span id="year"></span> Iwan Rahabok</p>
       </div>
     </footer>
 
     <script src="script.js"></script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
