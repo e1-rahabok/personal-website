@@ -11,3 +11,6 @@ wrangler.jsonc
 .nojekyll
 README.md
 CLAUDE.md
+worker
+SETUP-PHOTOS.md
+Photo Auto Sync

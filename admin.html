@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Gallery Admin</title>
+<style>
+  :root { --bg:#0a0d14; --panel:#111827; --line:#1f2937; --text:#f3f4f6; --muted:#9ca3af; --accent:#06b6d4; --danger:#ef4444; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.4 system-ui, -apple-system, sans-serif; }
+  header { position:sticky; top:0; z-index:5; background:var(--bg); border-bottom:1px solid var(--line); padding:12px 16px; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  header h1 { font-size:18px; margin:0; }
+  header a, #who { color:var(--muted); font-size:13px; text-decoration:none; }
+  main { max-width:900px; margin:0 auto; padding:16px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:16px; }
+  h2 { font-size:16px; margin:0 0 12px; }
+  label { display:block; font-size:13px; color:var(--muted); margin:10px 0 4px; }
+  select, input[type=text], textarea { width:100%; padding:12px; font-size:16px; border-radius:10px; border:1px solid var(--line); background:var(--bg); color:var(--text); }
+  textarea { min-height:60px; resize:vertical; }
+  button, .btn { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:0 18px; font-size:16px; font-weight:600; border-radius:10px; border:0; cursor:pointer; background:var(--accent); color:#001; }
+  button.secondary { background:var(--line); color:var(--text); }
+  button.danger { background:transparent; color:var(--danger); border:1px solid var(--danger); }
+  button:disabled { opacity:.5; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; }
+  .row > * { flex:1 1 140px; }
+  #pick { width:100%; }
+  #status { font-size:14px; color:var(--muted); margin-top:10px; min-height:1.4em; }
+  .filters { display:flex; gap:6px; overflow-x:auto; padding-bottom:6px; }
+  .filters button { min-height:36px; padding:0 12px; font-size:13px; background:var(--line); color:var(--text); flex:none; }
+  .filters button.on { background:var(--accent); color:#001; }
+  .grid { display:grid; grid-template-columns:1fr; gap:12px; }
+  @media (min-width:600px) { .grid { grid-template-columns:1fr 1fr; } }
+  .item { background:var(--bg); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .item img { width:100%; aspect-ratio:16/10; object-fit:cover; display:block; background:#000; }
+  .item .body { padding:12px; }
+  .item .actions { display:flex; gap:8px; margin-top:10px; }
+  .item .actions button { flex:1; }
+  .saved { color:var(--accent); font-size:13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Gallery Admin</h1>
+  <div><span id="who"></span> · <a href="/#gallery">View site</a></div>
+</header>
+<main>
+  <section class="card">
+    <h2>Add photos</h2>
+    <div class="row">
+      <div>
+        <label for="up-cat">Category</label>
+        <select id="up-cat"></select>
+      </div>
+    </div>
+    <label for="up-title">Title (optional, used for all photos in this batch)</label>
+    <input type="text" id="up-title" maxlength="120">
+    <label for="up-desc">Description (optional)</label>
+    <textarea id="up-desc" maxlength="500"></textarea>
+    <input type="file" id="files" accept="image/*" multiple hidden>
+    <div style="margin-top:14px"><button id="pick">Choose photos</button></div>
+    <div id="status"></div>
+  </section>
+
+  <section class="card">
+    <h2>Photos on the site</h2>
+    <div class="filters" id="filters"></div>
+    <div class="grid" id="list"></div>
+  </section>
+</main>
+
+<script>
+const CATS = [
+  ['projects', 'Work · Projects'], ['books', 'Work · Books'], ['tech', 'Work · Technology'],
+  ['health', 'Life · Health'], ['home', 'Life · Home'], ['hobby', 'Life · Hobby'], ['family', 'Life · Family']
+];
+const MAX_SIDE = 2000;   // resize before upload: faster and strips location data
+let photos = [];
+let filter = 'all';
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const catOptions = sel => CATS.map(([v, l]) => `<option value="${v}"${v === sel ? ' selected' : ''}>${l}</option>`).join('');
+
+$('up-cat').innerHTML = catOptions('family');
+
+async function api(path, opts = {}) {
+  const res = await fetch(path, { credentials: 'same-origin', ...opts });
+  if (res.status === 401) throw new Error('Not signed in. Reload the page to log in.');
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || res.statusText);
+  return data;
+}
+
+async function init() {
+  try {
+    const me = await api('/api/admin/me');
+    $('who').textContent = me.email;
+  } catch (e) {
+    $('status').textContent = e.message;
+  }
+  load();
+}
+
+async function load() {
+  try {
+    const res = await fetch('/api/photos', { cache: 'no-store' });
+    photos = (await res.json()).photos || [];
+  } catch (e) {
+    photos = [];
+    $('status').textContent = 'Could not load photos.';
+  }
+  render();
+}
+
+function render() {
+  const counts = {};
+  photos.forEach(p => counts[p.category] = (counts[p.category] || 0) + 1);
+  $('filters').innerHTML = [['all', 'All']].concat(CATS).map(([v, l]) =>
+    `<button data-f="${v}" class="${v === filter ? 'on' : ''}">${l.replace(/^.*· /, '')} (${v === 'all' ? photos.length : counts[v] || 0})</button>`).join('');
+
+  const shown = photos.filter(p => filter === 'all' || p.category === filter);
+  $('list').innerHTML = shown.length ? shown.map(p => `
+    <div class="item" data-key="${esc(p.key)}">
+      <img src="${esc(p.url)}" alt="" loading="lazy">
+      <div class="body">
+        <label>Category</label><select name="category">${catOptions(p.category)}</select>
+        <label>Title</label><input type="text" name="title" value="${esc(p.title)}" maxlength="120">
+        <label>Description</label><textarea name="desc" maxlength="500">${esc(p.desc)}</textarea>
+        <label>Order (lower shows first)</label><input type="text" name="order" inputmode="numeric" value="${p.order || 0}">
+        <div class="actions">
+          <button class="secondary" data-act="save">Save</button>
+          <button class="danger" data-act="delete">Delete</button>
+        </div>
+        <div class="saved"></div>
+      </div>
+    </div>`).join('') : '<p style="color:var(--muted)">No photos yet.</p>';
+}
+
+$('filters').addEventListener('click', e => {
+  const b = e.target.closest('button[data-f]');
+  if (b) { filter = b.dataset.f; render(); }
+});
+
+$('list').addEventListener('click', async e => {
+  const b = e.target.closest('button[data-act]');
+  if (!b) return;
+  const item = b.closest('.item');
+  const key = item.dataset.key;
+  const path = '/api/admin/photos/' + encodeURIComponent(key);
+  b.disabled = true;
+  try {
+    if (b.dataset.act === 'delete') {
+      if (!confirm('Delete this photo from the site?')) return;
+      await api(path, { method: 'DELETE' });
+      photos = photos.filter(p => p.key !== key);
+      render();
+    } else {
+      const val = n => item.querySelector(`[name=${n}]`).value;
+      const body = { category: val('category'), title: val('title'), desc: val('desc'), order: val('order') };
+      await api(path, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      Object.assign(photos.find(p => p.key === key), body, { order: Number(body.order) || 0 });
+      item.querySelector('.saved').textContent = 'Saved';
+    }
+  } catch (err) {
+    alert(err.message);
+  } finally {
+    b.disabled = false;
+  }
+});
+
+$('pick').addEventListener('click', () => $('files').click());
+
+$('files').addEventListener('change', async () => {
+  const files = [...$('files').files];
+  $('files').value = '';
+  if (!files.length) return;
+  $('pick').disabled = true;
+  const qs = new URLSearchParams({ category: $('up-cat').value, title: $('up-title').value, desc: $('up-desc').value });
+  let done = 0, failed = 0;
+  for (const f of files) {
+    $('status').textContent = `Uploading ${done + failed + 1} of ${files.length}…`;
+    try {
+      const blob = await shrink(f);
+      await api('/api/admin/photos?' + qs, { method: 'PUT', headers: { 'Content-Type': blob.type }, body: blob });
+      done++;
+    } catch (err) {
+      failed++;
+      console.error(f.name, err);
+    }
+  }
+  $('status').textContent = `Uploaded ${done}` + (failed ? `, ${failed} failed` : '') + '.';
+  $('pick').disabled = false;
+  load();
+});
+
+// Resize to MAX_SIDE and re-encode as JPEG. Falls back to the original file.
+async function shrink(file) {
+  try {
+    const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
+    const scale = Math.min(1, MAX_SIDE / Math.max(bmp.width, bmp.height));
+    const c = document.createElement('canvas');
+    c.width = Math.round(bmp.width * scale);
+    c.height = Math.round(bmp.height * scale);
+    c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+    const out = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.85));
+    return out || file;
+  } catch (e) {
+    return file;
+  }
+}
+
+init();
+</script>
+</body>
+</html>

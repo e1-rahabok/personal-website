@@ -2,7 +2,20 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "personal-website",
   "compatibility_date": "2026-11-01",
+  "main": "worker/index.js",
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS",
+    // Send API and photo requests to the Worker; everything else is a static file.
+    "run_worker_first": ["/api/*", "/photos/*"]
+  },
+  "r2_buckets": [
+    { "binding": "PHOTOS", "bucket_name": "rahabok-photos" }
+  ],
+  "vars": {
+    // Fill these in after creating the Cloudflare Access app (see SETUP-PHOTOS.md).
+    "ACCESS_TEAM_DOMAIN": "",
+    "ACCESS_AUD": "",
+    "ADMIN_EMAILS": ""
   }
 }

@@ -71,7 +71,7 @@
             </div>
             <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
                 <a href="#about" class="hover:text-accent-cyan transition-colors">About</a>
-                <a href="#gallery" class="hover:text-accent-cyan transition-colors">Photo Showcase (20)</a>
+                <a href="#gallery" class="hover:text-accent-cyan transition-colors">Gallery</a>
                 <a href="#ai-telemetry" class="hover:text-accent-cyan transition-colors">AI & Eco Telemetry</a>
                 <a href="#publications" class="hover:text-accent-cyan transition-colors">Publications</a>
                 <a href="https://github.com/e1-rahabok/personal-website" target="_blank" class="flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-800/80 border border-gray-700 hover:border-accent-cyan transition-all text-accent-cyan">
@@ -148,27 +148,28 @@
         <section id="gallery" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <div class="text-center space-y-4 mb-12">
                 <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-accent-blue/10 border border-accent-blue/20 text-accent-blue text-xs font-mono">
-                    Visual Archive
+                    Gallery
                 </div>
-                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">20 Curated Personal & Environmental Captures</h2>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Work &amp; Life</h2>
                 <p class="text-gray-400 max-w-2xl mx-auto">
-                    Organized across home ponds, heavy weightlifting gym sessions, high-tech EV & mobile devices, and international expeditions. Click any card to open the high-resolution lightbox.
+                    Half work: projects, books and technology (VMware, Broadcom). Half life: health, home, hobbies and family.
                 </p>
-                
-                <!-- Category Filter Buttons -->
-                <div class="flex flex-wrap justify-center gap-2 pt-6">
-                    <button onclick="filterGallery('all')" class="gallery-filter-btn px-4 py-2 rounded-lg text-xs font-mono bg-accent-cyan text-dark-900 font-bold transition-all" data-filter="all">All (20)</button>
-                    <button onclick="filterGallery('home')" class="gallery-filter-btn px-4 py-2 rounded-lg text-xs font-mono glass-panel text-gray-300 hover:text-accent-cyan transition-all" data-filter="home">Home & Ponds (5)</button>
-                    <button onclick="filterGallery('gym')" class="gallery-filter-btn px-4 py-2 rounded-lg text-xs font-mono glass-panel text-gray-300 hover:text-accent-cyan transition-all" data-filter="gym">Gym & Fitness (5)</button>
-                    <button onclick="filterGallery('tech')" class="gallery-filter-btn px-4 py-2 rounded-lg text-xs font-mono glass-panel text-gray-300 hover:text-accent-cyan transition-all" data-filter="tech">Tech & Gear (5)</button>
-                    <button onclick="filterGallery('travel')" class="gallery-filter-btn px-4 py-2 rounded-lg text-xs font-mono glass-panel text-gray-300 hover:text-accent-cyan transition-all" data-filter="travel">Travel & Expeditions (5)</button>
+
+                <!-- Work / Life switch -->
+                <div class="flex justify-center gap-2 pt-6" id="gallery-groups">
+                    <button data-group="all" class="gallery-group-btn px-4 py-2 rounded-lg text-sm font-semibold">All</button>
+                    <button data-group="work" class="gallery-group-btn px-4 py-2 rounded-lg text-sm font-semibold">Work</button>
+                    <button data-group="life" class="gallery-group-btn px-4 py-2 rounded-lg text-sm font-semibold">Life</button>
                 </div>
+                <!-- Category chips, filled by JS -->
+                <div class="flex flex-wrap justify-center gap-2" id="gallery-cats"></div>
             </div>
 
             <!-- Gallery Grid -->
             <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Items injected via JS -->
             </div>
+            <p id="gallery-empty" class="hidden text-center text-gray-500 py-10">No photos here yet.</p>
         </section>
 
         <!-- AI & Eco Telemetry Dashboard -->
@@ -280,7 +281,7 @@
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
             <div class="aspect-video w-full rounded-xl overflow-hidden bg-gray-900 flex items-center justify-center relative">
-                <img id="lightbox-img" src="" alt="" class="w-full h-full object-cover">
+                <img id="lightbox-img" src="" alt="" class="w-full h-full object-contain">
             </div>
             <div>
                 <span id="lightbox-category" class="px-2.5 py-1 rounded-full text-xs font-mono bg-accent-cyan/10 text-accent-cyan uppercase"></span>
@@ -294,76 +295,120 @@
     <script>
         lucide.createIcons();
 
-        const galleryItems = [
-            { id: 1, category: 'home', title: 'Large Outdoor Natural Pond', desc: 'Landed home sanctuary in Singapore featuring apple snails, guppies, mollies, and flourishing pandan trees.', image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80' },
-            { id: 2, category: 'home', title: 'Shallow Indoor Guppy Pond', desc: 'Indoor aquatic setup stocked with vibrant guppies and mollies for calm ambient observation.', image: 'https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=800&q=80' },
-            { id: 3, category: 'home', title: 'Split Air-Conditioning System', desc: 'Energy-efficient climate control regulating the Singapore landed residence living spaces.', image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80' },
-            { id: 4, category: 'home', title: 'Landed Residence Architecture', desc: 'Spacious multi-level home environment designed for family life and tranquility.', image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80' },
-            { id: 5, category: 'home', title: 'Pandan Garden Corner', desc: 'Lush green pandan foliage thriving right alongside the outdoor natural pond ecosystem.', image: 'https://images.unsplash.com/photo-1530968461151-f3f22e17743d?auto=format&fit=crop&w=800&q=80' },
+        // Placeholder photos, shown only until real photos are uploaded via /admin.
+        const placeholderItems = [
+            { category: 'home', title: 'Large Outdoor Natural Pond', desc: 'Landed home sanctuary in Singapore featuring apple snails, guppies, mollies, and flourishing pandan trees.', url: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80' },
+            { category: 'home', title: 'Shallow Indoor Guppy Pond', desc: 'Indoor aquatic setup stocked with vibrant guppies and mollies for calm ambient observation.', url: 'https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=800&q=80' },
+            { category: 'home', title: 'Split Air-Conditioning System', desc: 'Energy-efficient climate control regulating the Singapore landed residence living spaces.', url: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80' },
+            { category: 'home', title: 'Landed Residence Architecture', desc: 'Spacious multi-level home environment designed for family life and tranquility.', url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80' },
+            { category: 'home', title: 'Pandan Garden Corner', desc: 'Lush green pandan foliage thriving right alongside the outdoor natural pond ecosystem.', url: 'https://images.unsplash.com/photo-1530968461151-f3f22e17743d?auto=format&fit=crop&w=800&q=80' },
             
-            { id: 6, category: 'gym', title: 'Heavy Deadlift Session', desc: 'Three decades of weightlifting experience focused on major compound movements.', image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80' },
-            { id: 7, category: 'gym', title: 'Squat Rack & Leg Strength', desc: 'Deep barbell squats maintaining peak physical conditioning in the 50s.', image: 'https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=800&q=80' },
-            { id: 8, category: 'gym', title: 'Bench Press Mastery', desc: 'Consistent upper body strength training with heavy compound pressing.', image: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80' },
-            { id: 9, category: 'gym', title: 'Pull-Ups & Dips Rig', desc: 'Bodyweight mastery focusing on strict pull-ups and parallel bar dips.', image: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80' },
-            { id: 10, category: 'gym', title: 'Core & Conditioning Routine', desc: 'Rigorous daily training maintaining discipline, posture, and longevity.', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80' },
+            { category: 'health', title: 'Heavy Deadlift Session', desc: 'Three decades of weightlifting experience focused on major compound movements.', url: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80' },
+            { category: 'health', title: 'Squat Rack & Leg Strength', desc: 'Deep barbell squats maintaining peak physical conditioning in the 50s.', url: 'https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=800&q=80' },
+            { category: 'health', title: 'Bench Press Mastery', desc: 'Consistent upper body strength training with heavy compound pressing.', url: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80' },
+            { category: 'health', title: 'Pull-Ups & Dips Rig', desc: 'Bodyweight mastery focusing on strict pull-ups and parallel bar dips.', url: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80' },
+            { category: 'health', title: 'Core & Conditioning Routine', desc: 'Rigorous daily training maintaining discipline, posture, and longevity.', url: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80' },
 
-            { id: 11, category: 'tech', title: 'Zeekr 7X SUV EV', desc: 'Advanced electric vehicle driven daily across Singapore roads for 9+ months.', image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800&q=80' },
-            { id: 12, category: 'tech', title: 'Honor Magic V3 Foldable', desc: 'Cutting-edge foldable smartphone running MagicOS 10 for rapid mobile productivity.', image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80' },
-            { id: 13, category: 'tech', title: 'Dell Pro Max Workstation', desc: 'High-performance corporate workstation laptop handling heavy virtualization workloads.', image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80' },
-            { id: 14, category: 'tech', title: 'LG Gram & WSL Environment', desc: 'Lightweight mobile powerhouse running Windows Subsystem for Linux and Docker containers.', image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80' },
-            { id: 15, category: 'tech', title: 'Remote Infrastructure Node', desc: 'Managing remote Ubuntu Desktop Linux servers via secure SSH and RDP tunnels.', image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80' },
+            { category: 'tech', title: 'Zeekr 7X SUV EV', desc: 'Advanced electric vehicle driven daily across Singapore roads for 9+ months.', url: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800&q=80' },
+            { category: 'tech', title: 'Honor Magic V3 Foldable', desc: 'Cutting-edge foldable smartphone running MagicOS 10 for rapid mobile productivity.', url: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80' },
+            { category: 'tech', title: 'Dell Pro Max Workstation', desc: 'High-performance corporate workstation laptop handling heavy virtualization workloads.', url: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80' },
+            { category: 'tech', title: 'LG Gram & WSL Environment', desc: 'Lightweight mobile powerhouse running Windows Subsystem for Linux and Docker containers.', url: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80' },
+            { category: 'tech', title: 'Remote Infrastructure Node', desc: 'Managing remote Ubuntu Desktop Linux servers via secure SSH and RDP tunnels.', url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80' },
 
-            { id: 16, category: 'travel', title: 'The Venetian Las Vegas', desc: 'International travel expedition staying at The Venetian during the US tech tour.', image: 'https://images.unsplash.com/photo-1581351721010-8cf859cb14a4?auto=format&fit=crop&w=800&q=80' },
-            { id: 17, category: 'travel', title: 'Great Wall of China Expedition', desc: 'Historical exploration during the Beijing and Shanghai architectural tour.', image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=800&q=80' },
-            { id: 18, category: 'travel', title: 'Hong Kong West Kowloon Station', desc: 'Utilizing advanced high-speed rail lines across Southern China.', image: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=800&q=80' },
-            { id: 19, category: 'travel', title: 'Surabaya East Java Visit', desc: 'Family and cultural heritage visits across Surabaya and East Java.', image: 'https://images.unsplash.com/photo-1596401348654-201991a0445d?auto=format&fit=crop&w=800&q=80' },
-            { id: 20, category: 'travel', title: 'Lombok Mandalika Development', desc: 'Future commercial projects including ice-making factory and shophouses in Kuta Lombok.', image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80' }
+            { category: 'hobby', title: 'The Venetian Las Vegas', desc: 'International travel expedition staying at The Venetian during the US tech tour.', url: 'https://images.unsplash.com/photo-1581351721010-8cf859cb14a4?auto=format&fit=crop&w=800&q=80' },
+            { category: 'hobby', title: 'Great Wall of China Expedition', desc: 'Historical exploration during the Beijing and Shanghai architectural tour.', url: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=800&q=80' },
+            { category: 'hobby', title: 'Hong Kong West Kowloon Station', desc: 'Utilizing advanced high-speed rail lines across Southern China.', url: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=800&q=80' },
+            { category: 'hobby', title: 'Surabaya East Java Visit', desc: 'Family and cultural heritage visits across Surabaya and East Java.', url: 'https://images.unsplash.com/photo-1596401348654-201991a0445d?auto=format&fit=crop&w=800&q=80' },
+            { category: 'hobby', title: 'Lombok Mandalika Development', desc: 'Future commercial projects including ice-making factory and shophouses in Kuta Lombok.', url: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80' }
         ];
 
-        function renderGallery(filter = 'all') {
+        const GALLERY_CATS = {
+            work: [['projects', 'Projects'], ['books', 'Books'], ['tech', 'Technology']],
+            life: [['health', 'Health'], ['home', 'Home'], ['hobby', 'Hobby'], ['family', 'Family']]
+        };
+        const CAT_GROUP = {};
+        const CAT_LABEL = {};
+        Object.entries(GALLERY_CATS).forEach(([g, cats]) => cats.forEach(([c, l]) => { CAT_GROUP[c] = g; CAT_LABEL[c] = l; }));
+
+        let galleryItems = [];
+        let galleryGroup = 'all';
+        let galleryCat = 'all';
+
+        async function loadGallery() {
+            try {
+                const res = await fetch('/api/photos');
+                if (!res.ok) throw new Error(res.status);
+                const data = await res.json();
+                galleryItems = data.photos || [];
+            } catch (e) {
+                galleryItems = [];
+            }
+            if (!galleryItems.length) galleryItems = placeholderItems;
+            renderGallery();
+        }
+
+        function escapeHtml(str) {
+            return String(str || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+
+        function renderGallery() {
+            const on = 'bg-accent-cyan text-dark-900';
+            const off = 'glass-panel text-gray-300 hover:text-accent-cyan';
+            document.querySelectorAll('.gallery-group-btn').forEach(btn => {
+                btn.className = 'gallery-group-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all ' + (btn.dataset.group === galleryGroup ? on : off);
+            });
+
+            const cats = document.getElementById('gallery-cats');
+            const groups = galleryGroup === 'all' ? ['work', 'life'] : [galleryGroup];
+            const visibleCats = groups.flatMap(g => GALLERY_CATS[g]);
+            cats.innerHTML = [['all', 'All']].concat(visibleCats).map(([c, l]) => {
+                const n = c === 'all' ? null : galleryItems.filter(i => i.category === c).length;
+                return `<button data-cat="${c}" class="px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${c === galleryCat ? on + ' font-bold' : off}">${l}${n === null ? '' : ' (' + n + ')'}</button>`;
+            }).join('');
+
+            const filtered = galleryItems.filter(i =>
+                (galleryGroup === 'all' || CAT_GROUP[i.category] === galleryGroup) &&
+                (galleryCat === 'all' || i.category === galleryCat));
+
             const grid = document.getElementById('gallery-grid');
             grid.innerHTML = '';
-            const filtered = filter === 'all' ? galleryItems : galleryItems.filter(item => item.category === filter);
-            
+            document.getElementById('gallery-empty').classList.toggle('hidden', filtered.length > 0);
+
             filtered.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'glass-panel rounded-2xl overflow-hidden group cursor-pointer border border-gray-800 hover:border-accent-cyan transition-all duration-300 transform hover:-translate-y-1';
                 card.onclick = () => openLightbox(item);
                 card.innerHTML = `
                     <div class="aspect-video w-full overflow-hidden bg-gray-900 relative">
-                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                            <span class="text-xs font-mono text-accent-cyan flex items-center space-x-1">
-                                <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
-                                <span>Click to expand</span>
-                            </span>
-                        </div>
+                        <img src="${escapeHtml(item.url)}" alt="${escapeHtml(item.title)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <div class="p-5 space-y-2">
-                        <span class="text-xs font-mono uppercase tracking-wider text-accent-cyan">${item.category}</span>
-                        <h4 class="font-bold text-base text-white group-hover:text-accent-cyan transition-colors">${item.title}</h4>
-                        <p class="text-xs text-gray-400 line-clamp-2">${item.desc}</p>
+                        <span class="text-xs font-mono uppercase tracking-wider text-accent-cyan">${escapeHtml(CAT_GROUP[item.category] || '')} · ${escapeHtml(CAT_LABEL[item.category] || item.category)}</span>
+                        <h4 class="font-bold text-base text-white group-hover:text-accent-cyan transition-colors">${escapeHtml(item.title)}</h4>
+                        <p class="text-xs text-gray-400 line-clamp-2">${escapeHtml(item.desc)}</p>
                     </div>
                 `;
                 grid.appendChild(card);
             });
-            lucide.createIcons();
         }
 
-        function filterGallery(category) {
-            document.querySelectorAll('.gallery-filter-btn').forEach(btn => {
-                if(btn.dataset.filter === category) {
-                    btn.className = 'gallery-filter-btn px-4 py-2 rounded-lg text-xs font-mono bg-accent-cyan text-dark-900 font-bold transition-all';
-                } else {
-                    btn.className = 'gallery-filter-btn px-4 py-2 rounded-lg text-xs font-mono glass-panel text-gray-300 hover:text-accent-cyan transition-all';
-                }
-            });
-            renderGallery(category);
-        }
+        document.getElementById('gallery-groups').addEventListener('click', e => {
+            const btn = e.target.closest('button[data-group]');
+            if (!btn) return;
+            galleryGroup = btn.dataset.group;
+            galleryCat = 'all';
+            renderGallery();
+        });
+        document.getElementById('gallery-cats').addEventListener('click', e => {
+            const btn = e.target.closest('button[data-cat]');
+            if (!btn) return;
+            galleryCat = btn.dataset.cat;
+            renderGallery();
+        });
 
         function openLightbox(item) {
-            document.getElementById('lightbox-img').src = item.image;
-            document.getElementById('lightbox-category').innerText = item.category;
+            document.getElementById('lightbox-img').src = item.url;
+            document.getElementById('lightbox-category').innerText = (CAT_GROUP[item.category] || '') + ' · ' + (CAT_LABEL[item.category] || item.category);
             document.getElementById('lightbox-title').innerText = item.title;
             document.getElementById('lightbox-desc').innerText = item.desc;
             document.getElementById('lightbox').classList.remove('hidden');
@@ -447,7 +492,7 @@
             resizeCanvas();
             initParticles();
             animateNetwork();
-            renderGallery('all');
+            loadGallery();
         });
     </script>
 </body>
