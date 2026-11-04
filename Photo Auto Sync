@@ -1,0 +1,33 @@
+To automate the transfer of images from Google Photos to a GitHub repository, implement the google-photos-exporter GitHub Action. This third-party application fetches media from the Google Photos library and commits it directly to a specified GitHub repository.
+
+Here is the technical implementation:
+
+1. Google Cloud Configuration
+
+Create a Google Cloud project and enable the Google Photos Library API.
+
+Generate OAuth 2.0 credentials (Client ID and Client Secret).
+
+Generate a non-expiring refresh token for your Google account.
+
+2. GitHub Configuration
+
+Create a Personal Access Token (PAT) with Read and Write access to repository contents.
+
+Store the following as Encrypted Secrets in your target GitHub repository:
+
+GOOGLE_PHOTOS_CLIENT_ID
+
+GOOGLE_PHOTOS_CLIENT_SECRET
+
+GOOGLE_PHOTOS_REFRESH_TOKEN
+
+GITHUB_ACCESS_TOKEN
+
+Define the environment variables for GITHUB_REPOSITORY_OWNER and GITHUB_REPOSITORY_NAME.
+
+3. Workflow Execution
+Configure a .github/workflows/export.yml file to trigger the action on a schedule (cron job) or manually. The runner executes a Java-based CLI tool to pull media via the API and push it to the repo.
+
+Architectural Constraint Warning:
+Git is not designed for binary blob storage. Storing high-resolution photos directly in a GitHub repository will bloat the git history, risk exceeding the 100 MB per-file hard limit, and quickly reach the 1 GB repository size soft limit. For production web hosting, a headless architecture pulling directly from the Google API or routing files to an S3-compatible object storage bucket is the standard enterprise practice.
